@@ -10,10 +10,11 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleNotFound(ResourceNotFoundException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
-
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleGeneral(Exception ex) {
-        return new ResponseEntity<>("Something went wrong",
+        ex.printStackTrace();  // log real error
+        return new ResponseEntity<>(ex.getMessage(),
                 HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
 }

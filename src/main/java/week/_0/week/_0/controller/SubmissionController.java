@@ -2,10 +2,8 @@ package week._0.week._0.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import week._0.week._0.dto.SubmissionRequestDTO;
 import week._0.week._0.model.Submission;
 import week._0.week._0.model.SubmissionStatus;
 import week._0.week._0.model.Task;
@@ -23,14 +21,12 @@ public class SubmissionController {
     private final UserRepository userRepository;
     private final TaskRepository taskRepository;
 
-    @PostMapping("/submit")
-    public ResponseEntity<?> submitTask(
-            @RequestParam Long userId,
-            @RequestParam Long taskId
-    ) {
+    @PostMapping
 
-        User user = userRepository.findById(userId).orElseThrow();
-        Task task = taskRepository.findById(taskId).orElseThrow();
+    public ResponseEntity<?> submitTask(@RequestBody SubmissionRequestDTO request) {
+
+        User user = userRepository.findById(request.getUserId()).orElseThrow();
+        Task task = taskRepository.findById(request.getTaskId()).orElseThrow();
 
         Submission submission = new Submission();
         submission.setUser(user);
